@@ -2,6 +2,10 @@ module.exports = {
   /* parser allow for ESLint to lint TS source code */
   parser: '@typescript-eslint/parser',
   plugins: ['import', '@typescript-eslint', 'prettier'],
+  extends: [
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
+  ],
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module',
