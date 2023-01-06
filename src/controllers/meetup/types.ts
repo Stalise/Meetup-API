@@ -9,7 +9,7 @@ export interface IExtendedMeetup extends IMeetup {
   id: number;
 }
 
-export interface ICreateMeetupResponseBody {
+export interface IMeetupResponseBody {
   message: string;
   meetup?: IExtendedMeetup;
 }
