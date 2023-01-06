@@ -1,12 +1,17 @@
 import type { QueryResult } from 'pg';
-import type { Response } from 'express';
+import type { Request, Response } from 'express';
 
 import db from 'services/db-service';
 import createTagsValues from 'utils/create-tags-values';
 import responseMessages from 'constants/response-messages';
 import type { IRequestBody } from 'types/controllers';
 
-import { IMeetup, IExtendedMeetup, ICreateMeetupResponseBody } from './types';
+import type {
+  IMeetup,
+  IExtendedMeetup,
+  ICreateMeetupResponseBody,
+  IGetMeetupsResponseBody,
+} from './types';
 
 const meetupController = {
   async createMeetup(
@@ -37,9 +42,29 @@ const meetupController = {
 
       const meetup: IExtendedMeetup = { ...req.body, id: meetupId };
 
-      res.status(200).json({ message: responseMessages.meetupCreated, meetup });
+      return res
+        .status(200)
+        .json({ message: responseMessages.meetupCreated, meetup });
     } catch (error) {
-      res.status(500).json({ message: responseMessages.unexpected });
+      return res.status(500).json({ message: responseMessages.unexpected });
+    }
+  },
+
+  async getMeetups(req: Request, res: Response<IGetMeetupsResponseBody>) {
+    try {
+      const response: QueryResult<IExtendedMeetup> = await db.query(
+        `SELECT *, array(select tags.name from tags where meetup_id = meetups.id) AS tags
+        FROM meetups
+        ORDER BY id ASC`
+      );
+
+      const meetups = response.rows;
+
+      return res
+        .status(200)
+        .json({ message: responseMessages.meetupsList, meetups });
+    } catch (error) {
+      return res.status(500).json({ message: responseMessages.unexpected });
     }
   },
 };

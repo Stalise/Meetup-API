@@ -13,3 +13,8 @@ export interface ICreateMeetupResponseBody {
   message: string;
   meetup?: IExtendedMeetup;
 }
+
+export interface IGetMeetupsResponseBody {
+  message: string;
+  meetups?: IExtendedMeetup[];
+}
