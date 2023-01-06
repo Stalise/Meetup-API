@@ -44,7 +44,7 @@ const meetupController = {
       const meetup: IExtendedMeetup = { ...req.body, id: meetupId };
 
       return res
-        .status(200)
+        .status(201)
         .json({ message: responseMessages.meetupCreated, meetup });
     } catch (error) {
       return res.status(500).json({ message: responseMessages.unexpected });
@@ -138,6 +138,34 @@ const meetupController = {
       return res
         .status(200)
         .json({ message: responseMessages.meetupUpdated, meetup });
+    } catch (error) {
+      return res.status(500).json({ message: responseMessages.unexpected });
+    }
+  },
+
+  async deleteMeetup(
+    req: IRequestParams<{ id: string }>,
+    res: Response<Pick<IMeetupResponseBody, 'message'>>
+  ) {
+    const meetupId = req.params.id;
+
+    try {
+      const response: QueryResult<IExtendedMeetup> = await db.query(
+        `DELETE FROM meetups
+        WHERE id = $1
+        RETURNING *`,
+        [meetupId]
+      );
+
+      const meetup = response.rows[0];
+
+      if (!meetup) {
+        return res
+          .status(404)
+          .json({ message: responseMessages.meetupNotExist });
+      }
+
+      return res.status(200).json({ message: responseMessages.meetupDeleted });
     } catch (error) {
       return res.status(500).json({ message: responseMessages.unexpected });
     }
