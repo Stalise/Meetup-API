@@ -7,5 +7,6 @@ const router = express.Router();
 router.post('/', meetupController.createMeetup);
 router.get('/', meetupController.getMeetups);
 router.get('/:id', meetupController.getMeetup);
+router.put('/', meetupController.updateMeetup);
 
 export default router;

@@ -9,6 +9,7 @@ import type { IRequestBody, IRequestParams } from 'types/controllers';
 import type {
   IMeetup,
   IExtendedMeetup,
+  IMeetupForUpdate,
   IMeetupResponseBody,
   IGetMeetupsResponseBody,
 } from './types';
@@ -72,14 +73,13 @@ const meetupController = {
     req: IRequestParams<{ id: string }>,
     res: Response<IMeetupResponseBody>
   ) {
-    try {
-      const meetupId = req.params.id;
+    const meetupId = req.params.id;
 
+    try {
       const response: QueryResult<IExtendedMeetup> = await db.query(
         `SELECT *, array(select tags.name from tags where meetup_id = meetups.id) AS tags
         FROM meetups
-        WHERE id = $1
-        ORDER BY id ASC`,
+        WHERE id = $1`,
         [meetupId]
       );
 
@@ -92,6 +92,52 @@ const meetupController = {
       }
 
       return res.status(200).json({ message: responseMessages.meetup, meetup });
+    } catch (error) {
+      return res.status(500).json({ message: responseMessages.unexpected });
+    }
+  },
+
+  async updateMeetup(req: IRequestBody<IMeetupForUpdate>, res: Response) {
+    const meetupId = req.body.id;
+
+    try {
+      for (const value of Object.keys(req.body)) {
+        if (value !== 'id' && value !== 'tags') {
+          await db.query(`UPDATE meetups SET ${value} = $1 WHERE id = $2`, [
+            req.body[value],
+            meetupId,
+          ]);
+        }
+      }
+
+      if (req.body.tags?.length) {
+        await db.query(
+          `DELETE FROM tags
+          WHERE meetup_id = $1`,
+          [meetupId]
+        );
+
+        const values = createTagsValues(req.body.tags);
+
+        await db.query(
+          `INSERT INTO tags (name, meetup_id)
+          VALUES ${values}`,
+          [meetupId]
+        );
+      }
+
+      const response: QueryResult<IExtendedMeetup> = await db.query(
+        `SELECT *, array(select tags.name from tags where meetup_id = meetups.id) AS tags
+        FROM meetups
+        WHERE id = $1`,
+        [meetupId]
+      );
+
+      const meetup = response.rows[0];
+
+      return res
+        .status(200)
+        .json({ message: responseMessages.meetupUpdated, meetup });
     } catch (error) {
       return res.status(500).json({ message: responseMessages.unexpected });
     }

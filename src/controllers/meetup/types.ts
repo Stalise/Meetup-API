@@ -1,3 +1,5 @@
+import type { KeyType } from 'types/helpers';
+
 export interface IMeetup {
   theme: string;
   description: string;
@@ -6,6 +8,10 @@ export interface IMeetup {
 }
 
 export interface IExtendedMeetup extends IMeetup {
+  id: number;
+}
+
+export interface IMeetupForUpdate extends KeyType<unknown>, Partial<IMeetup> {
   id: number;
 }
 
