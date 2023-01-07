@@ -19,14 +19,14 @@ const meetupController = {
     req: IRequestBody<IMeetup>,
     res: Response<IMeetupResponseBody>
   ) {
-    const { theme, description, tags, venue } = req.body;
+    const { theme, description, tags, time, venue } = req.body;
 
     try {
       const response: QueryResult<Omit<IExtendedMeetup, 'tags'>> =
         await db.query(
-          `INSERT INTO meetups (theme, description, venue)
-          VALUES ($1, $2, $3) RETURNING *`,
-          [theme, description, venue]
+          `INSERT INTO meetups (theme, description, time, venue)
+          VALUES ($1, $2, $3, $4) RETURNING *`,
+          [theme, description, time, venue]
         );
 
       const meetupId = response.rows[0].id;

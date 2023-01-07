@@ -3,6 +3,7 @@ import type { KeyType } from 'types/helpers';
 export interface IMeetup {
   theme: string;
   description: string;
+  time: string;
   venue: string;
   tags?: string[];
 }
