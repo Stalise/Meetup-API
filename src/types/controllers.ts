@@ -8,3 +8,7 @@ export interface IRequestBody<T> extends Request {
 export interface IRequestParams<T extends ParamsDictionary> extends Request {
   params: T;
 }
+
+export interface IControllerResponse {
+  message?: string;
+}
