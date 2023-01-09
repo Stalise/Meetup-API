@@ -9,10 +9,15 @@ export const createMeetupValidation = (
   res: Response<IControllerResponse>,
   next: NextFunction
 ) => {
-  const { error } = createMeetupSchema.validate(req.body as IMeetup);
+  const { error, value } = createMeetupSchema.validate(req.body as IMeetup);
 
   if (error) {
     return res.status(400).json({ message: error.message });
   }
+
+  if (value) {
+    req.body = value;
+  }
+
   next();
 };
