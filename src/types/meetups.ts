@@ -15,3 +15,7 @@ export interface IExtendedMeetup extends IMeetup {
 export interface IMeetupForUpdate extends KeyType<unknown>, Partial<IMeetup> {
   id: number;
 }
+
+export interface IParamsId extends KeyType<string> {
+  id: string;
+}

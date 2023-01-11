@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 import { validationMessages } from 'data/constants';
-import type { IMeetup, IMeetupForUpdate } from 'types/meetups';
+import type { IMeetup, IMeetupForUpdate, IParamsId } from 'types/meetups';
 
 export const createMeetupSchema = Joi.object<IMeetup>({
   theme: Joi.string().trim().min(3).max(50).required(),
@@ -27,4 +27,12 @@ export const updateMeetupSchema = Joi.object<IMeetupForUpdate>({
     }),
   venue: Joi.string().trim().min(3).max(100),
   tags: Joi.array().items(Joi.string().trim().min(1).max(15)).max(10),
+});
+
+export const meetupIdSchema = Joi.object<IParamsId>({
+  id: Joi.number()
+    .integer()
+    .greater(0)
+    .custom((value: number) => value.toString())
+    .required(),
 });

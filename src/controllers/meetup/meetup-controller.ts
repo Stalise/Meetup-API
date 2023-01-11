@@ -13,7 +13,7 @@ import type {
   IRequestParams,
   IControllerResponse,
 } from 'types/controllers';
-import type { IMeetup, IMeetupForUpdate } from 'types/meetups';
+import type { IMeetup, IMeetupForUpdate, IParamsId } from 'types/meetups';
 
 import type { IMeetupResponseBody, IMeetupsResponseBody } from './types';
 
@@ -42,7 +42,7 @@ const meetupController = {
   },
 
   async getMeetup(
-    req: IRequestParams<{ id: string }>,
+    req: IRequestParams<IParamsId>,
     res: Response<IMeetupResponseBody>
   ) {
     try {
@@ -74,7 +74,7 @@ const meetupController = {
   },
 
   async deleteMeetup(
-    req: IRequestParams<{ id: string }>,
+    req: IRequestParams<IParamsId>,
     res: Response<IControllerResponse>
   ) {
     try {
