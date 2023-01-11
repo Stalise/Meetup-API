@@ -1,23 +1,26 @@
 import { Response, NextFunction } from 'express';
+import { ObjectSchema } from 'joi';
 
-import { createMeetupSchema } from 'data/validation-shemas';
 import type { IRequestBody, IControllerResponse } from 'types/controllers';
-import type { IMeetup } from 'types/meetups';
+import type { IMeetup, IMeetupForUpdate } from 'types/meetups';
 
-export const createMeetupValidation = (
-  req: IRequestBody<IMeetup>,
-  res: Response<IControllerResponse>,
-  next: NextFunction
-) => {
-  const { error, value } = createMeetupSchema.validate(req.body as IMeetup);
+type BodyType = IMeetup | IMeetupForUpdate;
 
-  if (error) {
-    return res.status(400).json({ message: error.message });
-  }
+export const validationBody =
+  <B extends BodyType>(schema: ObjectSchema<B>) =>
+  (
+    req: IRequestBody<B>,
+    res: Response<IControllerResponse>,
+    next: NextFunction
+  ) => {
+    const { error, value } = schema.validate(req.body);
 
-  if (value) {
-    req.body = value;
-  }
+    if (error) {
+      return res.status(400).json({ message: error.message });
+    }
 
-  next();
-};
+    if (value) {
+      req.body = value;
+    }
+    next();
+  };
