@@ -24,4 +24,15 @@
  *                type: string
  *            example:
  *              message: Meetup is not exist.
+ *    Validation:
+ *      description: Request parameters failed validation
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              message:
+ *                type: string
+ *            example:
+ *              message: "\"id\" must be a number"
  */
