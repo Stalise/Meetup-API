@@ -7,7 +7,7 @@ import {
   updateMeetup,
   deleteMeetup,
 } from 'services/meetup-service';
-import responseMessages from 'data/constants';
+import responseMessages from 'data/messages/response';
 import type {
   IRequestBody,
   IRequestParams,
