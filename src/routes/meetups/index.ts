@@ -9,7 +9,7 @@ import {
   createMeetupSchema,
   updateMeetupSchema,
   meetupIdSchema,
-} from 'data/request-validation';
+} from 'helpers/request-validation/meetups';
 import { IMeetup, IMeetupForUpdate, IParamsId } from 'types/meetups';
 
 const router = express.Router();
