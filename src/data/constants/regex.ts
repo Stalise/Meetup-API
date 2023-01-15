@@ -1,1 +1,2 @@
-export const ISODateRegex = /^(20dd)-(dd)-(dd)T(dd):(dd):(dd).(d{3}Z)$/;
+export const ISODateRegex =
+  /^(20\d\d)-(\d\d)-(\d\d)T(\d\d):(\d\d):(\d\d).(\d{3}Z)$/;
