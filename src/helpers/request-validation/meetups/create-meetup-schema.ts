@@ -4,12 +4,26 @@ import {
   requestValidationMessages,
   JoiValidationsMessages,
 } from 'data/messages/request-validation';
+import {
+  themeLimits,
+  descriptionLimits,
+  venueLimits,
+  tagLimits,
+} from 'data/request-validation/meetups-limits';
 import { ISODateRegex } from 'data/constants/regex';
 import type { IMeetup } from 'types/meetups';
 
 export const createMeetupSchema = Joi.object<IMeetup>({
-  theme: Joi.string().trim().min(3).max(50).required(),
-  description: Joi.string().trim().min(3).max(150).required(),
+  theme: Joi.string()
+    .trim()
+    .min(themeLimits.minLength)
+    .max(themeLimits.maxLength)
+    .required(),
+  description: Joi.string()
+    .trim()
+    .min(descriptionLimits.minLength)
+    .max(descriptionLimits.maxLength)
+    .required(),
   time: Joi.string()
     .pattern(ISODateRegex)
     .required()
@@ -17,6 +31,14 @@ export const createMeetupSchema = Joi.object<IMeetup>({
       [JoiValidationsMessages.stringPatternBase]:
         requestValidationMessages.invalidTime,
     }),
-  venue: Joi.string().trim().min(3).max(100).required(),
-  tags: Joi.array().items(Joi.string().trim().min(1).max(15)).max(10),
+  venue: Joi.string()
+    .trim()
+    .min(venueLimits.minLength)
+    .max(venueLimits.maxLength)
+    .required(),
+  tags: Joi.array()
+    .items(
+      Joi.string().trim().min(tagLimits.minLength).max(tagLimits.maxLength)
+    )
+    .max(tagLimits.maxCount),
 });
