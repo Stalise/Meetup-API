@@ -1,5 +1,5 @@
 export const requestValidationMessages = {
-  invalidTime: "The string must be in the format 'YYYY-MM-DDTHH:mm:ss.sssZ'.",
+  invalidTime: "The time must be in the format 'YYYY-MM-DDTHH:mm:ss.sssZ'",
 };
 
 export const JoiValidationsMessages = {
