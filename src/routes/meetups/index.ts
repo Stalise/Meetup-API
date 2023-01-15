@@ -3,7 +3,7 @@ import express from 'express';
 import {
   validationBody,
   validationParams,
-} from 'middlewares/validation-requests';
+} from 'middlewares/requests-validation';
 import meetupController from 'controllers/meetup/meetup-controller';
 import {
   createMeetupSchema,
