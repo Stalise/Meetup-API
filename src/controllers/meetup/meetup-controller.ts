@@ -33,7 +33,13 @@ const meetupController = {
 
   async getMeetups(req: Request, res: Response<IMeetupsResponseBody>) {
     try {
-      const meetups = await getMeetups();
+      const meetups = await getMeetups(req.query);
+
+      if (!meetups.length) {
+        return res
+          .status(404)
+          .json({ message: responseMessages.meetupNotExist });
+      }
 
       return res.status(200).json({ meetups });
     } catch (error) {

@@ -1,12 +1,22 @@
 import type { QueryResult } from 'pg';
 
 import db from 'helpers/init-db';
-import type { IExtendedMeetup } from 'types/meetups';
+import createSqlGetMeetups from 'utils/create-sql-search-get-meetups';
+import type { IExtendedMeetup, IQueryGetMeetups } from 'types/meetups';
 
-export const getMeetups = async (): Promise<IExtendedMeetup[]> => {
-  const response: QueryResult<IExtendedMeetup> = await db.query(
-    `SELECT *, array(select tags.name from tags where meetup_id = meetups.id) AS tags
+type GetMeetupsType = (data: IQueryGetMeetups) => Promise<IExtendedMeetup[]>;
+
+export const getMeetups: GetMeetupsType = async (data) => {
+  let sql = `
+    SELECT *,
+    array(select tags.name from tags where meetup_id = meetups.id) AS tags
     FROM meetups
+  `;
+
+  sql = createSqlGetMeetups(sql, data);
+
+  const response: QueryResult<IExtendedMeetup> = await db.query(
+    `${sql}
     ORDER BY id ASC`
   );
 
