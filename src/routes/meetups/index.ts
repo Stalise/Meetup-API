@@ -3,14 +3,21 @@ import express from 'express';
 import {
   validationBody,
   validationParams,
+  validationQuery,
 } from 'middlewares/requests-validation';
 import meetupController from 'controllers/meetup/meetup-controller';
 import {
   createMeetupSchema,
   updateMeetupSchema,
   meetupIdSchema,
+  getMeetupsSchema,
 } from 'helpers/request-validation/meetups';
-import { IMeetup, IMeetupForUpdate, IParamsId } from 'types/meetups';
+import {
+  IMeetup,
+  IMeetupForUpdate,
+  IParamsId,
+  IQueryGetMeetups,
+} from 'types/meetups';
 
 const router = express.Router();
 
@@ -20,7 +27,11 @@ router.post(
   meetupController.createMeetup
 );
 
-router.get('/', meetupController.getMeetups);
+router.get(
+  '/',
+  validationQuery<IQueryGetMeetups>(getMeetupsSchema),
+  meetupController.getMeetups
+);
 
 router.get(
   '/:id',
