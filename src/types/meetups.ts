@@ -26,4 +26,5 @@ export interface IQueryGetMeetups extends ParsedQs {
   description?: string;
   time?: string;
   venue?: string;
+  filters?: string;
 }

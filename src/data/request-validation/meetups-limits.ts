@@ -22,3 +22,8 @@ export const tagLimits = {
   maxLength: 15,
   maxCount: 10,
 };
+
+export const filtersLimits = {
+  minLength: 1,
+  maxLength: 25,
+};
