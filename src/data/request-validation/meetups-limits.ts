@@ -27,3 +27,11 @@ export const filtersLimits = {
   minLength: 1,
   maxLength: 25,
 };
+
+export const orderLimits = {
+  values: ['ASC', 'DESC'],
+};
+
+export const sortLimits = {
+  values: ['id', 'theme', 'description', 'time', 'venue'],
+};

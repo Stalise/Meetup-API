@@ -9,6 +9,8 @@ import {
   descriptionLimits,
   venueLimits,
   filtersLimits,
+  orderLimits,
+  sortLimits,
 } from 'data/request-validation/meetups-limits';
 import { ISODateRegex } from 'data/constants/regex';
 import type { IQueryGetMeetups } from 'types/meetups';
@@ -36,4 +38,10 @@ export const getMeetupsSchema = Joi.object<IQueryGetMeetups>({
     .trim()
     .min(filtersLimits.minLength)
     .max(filtersLimits.maxLength),
+  order: Joi.string()
+    .trim()
+    .valid(...orderLimits.values),
+  sort: Joi.string()
+    .trim()
+    .valid(...sortLimits.values),
 });

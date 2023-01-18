@@ -27,4 +27,6 @@ export interface IQueryGetMeetups extends ParsedQs {
   time?: string;
   venue?: string;
   filters?: string;
+  order?: 'ASC' | 'DESC';
+  sort?: keyof Omit<IExtendedMeetup, 'tags'>;
 }
