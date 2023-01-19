@@ -1,4 +1,4 @@
 {
-  "**/*.(js|ts|json|md)": ["yarn format"],
-  "src/**/*.(js|ts)": ["yarn lint:fix", "yarn lint"]
+  "**/*.(js|ts|json|md)": ["yarn staged:format"],
+  "src/**/*.(js|ts)": ["yarn staged:lint --fix", "yarn staged:lint"]
 }
