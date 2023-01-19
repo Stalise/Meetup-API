@@ -2,7 +2,7 @@ import Joi from 'joi';
 
 import {
   requestValidationMessages,
-  JoiValidationsMessages,
+  JoiValidationsPatterns,
 } from 'data/messages/request-validation';
 import {
   themeLimits,
@@ -28,7 +28,7 @@ export const createMeetupSchema = Joi.object<IMeetup>({
     .pattern(ISODateRegex)
     .required()
     .messages({
-      [JoiValidationsMessages.stringPatternBase]:
+      [JoiValidationsPatterns.stringPatternBase]:
         requestValidationMessages.invalidTime,
     }),
   venue: Joi.string()
