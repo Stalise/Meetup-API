@@ -5,7 +5,7 @@ import {
   validationParams,
   validationQuery,
 } from 'middlewares/requests-validation';
-import meetupController from 'controllers/meetup/meetup-controller';
+import meetupController from 'controllers/meetup';
 import {
   createMeetupSchema,
   updateMeetupSchema,
