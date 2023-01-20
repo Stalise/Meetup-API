@@ -1,4 +1,4 @@
-import type { Request, Response } from 'express';
+import type { Response } from 'express';
 
 import {
   createMeetup,
@@ -11,9 +11,15 @@ import responseMessages from 'data/messages/response';
 import type {
   IRequestBody,
   IRequestParams,
+  IRequestQuery,
   IControllerResponse,
 } from 'types/controllers';
-import type { IMeetup, IMeetupForUpdate, IParamsId } from 'types/meetups';
+import type {
+  IMeetup,
+  IMeetupForUpdate,
+  IParamsId,
+  IQueryGetMeetups,
+} from 'types/meetups';
 
 import type { IMeetupResponseBody, IMeetupsResponseBody } from './types';
 
@@ -31,17 +37,14 @@ const meetupController = {
     }
   },
 
-  async getMeetups(req: Request, res: Response<IMeetupsResponseBody>) {
+  async getMeetups(
+    req: IRequestQuery<IQueryGetMeetups>,
+    res: Response<IMeetupsResponseBody>
+  ) {
     try {
-      const meetups = await getMeetups(req.query);
+      const result = await getMeetups(req.query);
 
-      if (!meetups.length) {
-        return res
-          .status(404)
-          .json({ message: responseMessages.meetupNotExist });
-      }
-
-      return res.status(200).json({ meetups });
+      return res.status(200).json(result);
     } catch (error) {
       return res.status(500).json({ message: responseMessages.unexpected });
     }

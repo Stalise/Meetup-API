@@ -1,5 +1,7 @@
-import type { KeyType } from 'types/helpers';
 import type { ParsedQs } from 'qs';
+
+import type { IMeetupsResponseBody } from 'controllers/meetup/types';
+import type { KeyType } from 'types/helpers';
 
 export interface IMeetup {
   theme: string;
@@ -29,4 +31,10 @@ export interface IQueryGetMeetups extends ParsedQs {
   filters?: string;
   order?: 'ASC' | 'DESC';
   sort?: keyof Omit<IExtendedMeetup, 'tags'>;
+  page: string;
+  limit: string;
 }
+
+export type GetMeetupServiceType = Required<
+  Omit<IMeetupsResponseBody, 'message'>
+>;

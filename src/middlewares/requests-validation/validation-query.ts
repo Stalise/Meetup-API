@@ -13,7 +13,6 @@ export const validationQuery =
     res: Response<IControllerResponse>,
     next: NextFunction
   ) => {
-    // console.log(req.query);
     const { error, value } = schema.validate(req.query);
 
     if (error) {

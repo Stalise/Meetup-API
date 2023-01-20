@@ -7,4 +7,8 @@ export interface IMeetupResponseBody extends IControllerResponse {
 
 export interface IMeetupsResponseBody extends IControllerResponse {
   meetups?: IExtendedMeetup[];
+  page?: number;
+  limit?: number;
+  pages?: number;
+  total?: number;
 }

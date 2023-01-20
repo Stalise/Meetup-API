@@ -1,8 +1,8 @@
-import Joi from 'joi';
+import Joi, { CustomHelpers } from 'joi';
 
 import {
   requestValidationMessages,
-  JoiValidationsMessages,
+  JoiValidationsPatterns,
 } from 'data/messages/request-validation';
 import {
   themeLimits,
@@ -11,6 +11,8 @@ import {
   filtersLimits,
   orderLimits,
   sortLimits,
+  pageLimits,
+  limitLimits,
 } from 'data/request-validation/meetups-limits';
 import { ISODateRegex } from 'data/constants/regex';
 import type { IQueryGetMeetups } from 'types/meetups';
@@ -27,7 +29,7 @@ export const getMeetupsSchema = Joi.object<IQueryGetMeetups>({
   time: Joi.string()
     .pattern(ISODateRegex)
     .messages({
-      [JoiValidationsMessages.stringPatternBase]:
+      [JoiValidationsPatterns.stringPatternBase]:
         requestValidationMessages.invalidTime,
     }),
   venue: Joi.string()
@@ -44,4 +46,30 @@ export const getMeetupsSchema = Joi.object<IQueryGetMeetups>({
   sort: Joi.string()
     .trim()
     .valid(...sortLimits.values),
+  page: Joi.number()
+    .integer()
+    .greater(pageLimits.greater)
+    .custom((value: number, helpers: CustomHelpers) => {
+      if (!helpers.state.ancestors[0].limit) {
+        return helpers.message({
+          custom: requestValidationMessages.requiredLimitQuery,
+        });
+      }
+
+      return value.toString();
+    })
+    .required(),
+  limit: Joi.number()
+    .integer()
+    .greater(limitLimits.greater)
+    .custom((value: number, helpers: CustomHelpers) => {
+      if (!helpers.state.ancestors[0].page) {
+        return helpers.message({
+          custom: requestValidationMessages.requiredPageQuery,
+        });
+      }
+
+      return value.toString();
+    })
+    .required(),
 });

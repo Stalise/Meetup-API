@@ -35,3 +35,11 @@ export const orderLimits = {
 export const sortLimits = {
   values: ['id', 'theme', 'description', 'time', 'venue'],
 };
+
+export const pageLimits = {
+  greater: 0,
+};
+
+export const limitLimits = {
+  greater: 4,
+};
