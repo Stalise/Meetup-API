@@ -3,6 +3,7 @@ import type { Response } from 'express';
 import { registration, login } from 'services/authorization-service';
 import ApiError from 'helpers/api-error';
 import responseMessages from 'data/messages/response';
+import { jwtLimits } from 'data/jwt/limits';
 import type { IRequestBody, IControllerResponse } from 'types/controllers';
 import type { IAuthorization } from 'types/authorization';
 
@@ -12,7 +13,12 @@ const authorizationController = {
     res: Response<IControllerResponse>
   ) {
     try {
-      await registration(req.body);
+      const token = await registration(req.body);
+
+      res.cookie('token', token, {
+        maxAge: jwtLimits.tokenCookieLifetime,
+        httpOnly: true,
+      });
 
       return res
         .status(201)

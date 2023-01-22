@@ -2,6 +2,10 @@ import type { QueryResult } from 'pg';
 
 import db from 'helpers/init-db';
 import ApiError from 'helpers/api-error';
+import {
+  generateAccessToken,
+  generateRefreshToken,
+} from 'services/jwt-service';
 import responseMessages from 'data/messages/response';
 import type { IAuthorization } from 'types/authorization';
 
@@ -17,9 +21,14 @@ export const registration = async ({ mail, password }: IAuthorization) => {
     throw new ApiError(responseMessages.existMail, 409);
   }
 
+  const accessToken = generateAccessToken({ mail });
+  const refreshToken = generateRefreshToken({ mail });
+
   await db.query(
-    `INSERT INTO users (mail, password)
+    `INSERT INTO users (mail, password, token)
     values ($1, $2)`,
-    [mail, password]
+    [mail, password, refreshToken]
   );
+
+  return accessToken;
 };
