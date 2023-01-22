@@ -2,6 +2,7 @@ import type { QueryResult } from 'pg';
 
 import db from 'helpers/init-db';
 import ApiError from 'helpers/api-error';
+import responseMessages from 'data/messages/response';
 import type { IAuthorization } from 'types/authorization';
 
 export const registration = async ({ mail, password }: IAuthorization) => {
@@ -13,7 +14,7 @@ export const registration = async ({ mail, password }: IAuthorization) => {
   );
 
   if (existMail.rows.length) {
-    throw new ApiError('This mail is already registered', 409);
+    throw new ApiError(responseMessages.existMail, 409);
   }
 
   await db.query(
