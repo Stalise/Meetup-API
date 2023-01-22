@@ -1,9 +1,9 @@
 import Joi from 'joi';
 
 import { passwordLimits } from 'data/request-validation/authorization-limits';
-import type { IUser } from 'types/users';
+import type { IAuthorization } from 'types/authorization';
 
-export const authorizationSchema = Joi.object<IUser>({
+export const authorizationSchema = Joi.object<IAuthorization>({
   mail: Joi.string().trim().email().required(),
   password: Joi.string()
     .trim()

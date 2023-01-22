@@ -4,11 +4,11 @@ import { registration } from 'services/authorization-service';
 import ApiError from 'helpers/api-error';
 import responseMessages from 'data/messages/response';
 import type { IRequestBody, IControllerResponse } from 'types/controllers';
-import type { IUser } from 'types/users';
+import type { IAuthorization } from 'types/authorization';
 
 const authorizationController = {
   async registration(
-    req: IRequestBody<IUser>,
+    req: IRequestBody<IAuthorization>,
     res: Response<IControllerResponse>
   ) {
     try {

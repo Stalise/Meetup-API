@@ -2,10 +2,10 @@ import type { QueryResult } from 'pg';
 
 import db from 'helpers/init-db';
 import ApiError from 'helpers/api-error';
-import type { IUser } from 'types/users';
+import type { IAuthorization } from 'types/authorization';
 
-export const registration = async ({ mail, password }: IUser) => {
-  const existMail: QueryResult<{ mail: string }> = await db.query(
+export const registration = async ({ mail, password }: IAuthorization) => {
+  const existMail: QueryResult<Pick<IAuthorization, 'mail'>> = await db.query(
     `SELECT mail
     FROM users
     WHERE mail = $1`,
