@@ -3,8 +3,9 @@ import { ObjectSchema } from 'joi';
 
 import type { IRequestBody, IControllerResponse } from 'types/controllers';
 import type { IMeetup, IMeetupForUpdate } from 'types/meetups';
+import type { IUser } from 'types/users';
 
-type BodyType = IMeetup | IMeetupForUpdate;
+type BodyType = IMeetup | IMeetupForUpdate | IUser;
 
 export const validationBody =
   <B extends BodyType>(schema: ObjectSchema<B>) =>
