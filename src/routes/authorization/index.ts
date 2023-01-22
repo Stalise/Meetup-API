@@ -13,4 +13,10 @@ router.post(
   authorizationController.registration
 );
 
+router.post(
+  '/login',
+  validationBody<IAuthorization>(authorizationSchema),
+  authorizationController.login
+);
+
 export default router;
