@@ -37,7 +37,12 @@ const authorizationController = {
     res: Response<IControllerResponse>
   ) {
     try {
-      await login(req.body);
+      const token = await login(req.body);
+
+      res.cookie('token', token, {
+        maxAge: jwtLimits.tokenCookieLifetime,
+        httpOnly: true,
+      });
 
       return res
         .status(200)
