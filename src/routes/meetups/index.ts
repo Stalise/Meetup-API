@@ -32,14 +32,12 @@ router.post(
 
 router.get(
   '/',
-  authorization,
   validationQuery<IQueryGetMeetups>(getMeetupsSchema),
   meetupController.getMeetups
 );
 
 router.get(
   '/:id',
-  authorization,
   validationParams<IParamsId>(meetupIdSchema),
   meetupController.getMeetup
 );
