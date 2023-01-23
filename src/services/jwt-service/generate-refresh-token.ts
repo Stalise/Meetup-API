@@ -9,7 +9,7 @@ export const generateRefreshToken = (payload: Pick<IAuthorization, 'mail'>) => {
 
   if (secretRefreshJWT) {
     const token = jwt.sign(payload, secretRefreshJWT, {
-      expiresIn: jwtLimits.expiresAccessToken,
+      expiresIn: jwtLimits.expiresRefreshToken,
     });
 
     return token;
