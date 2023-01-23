@@ -21,13 +21,13 @@ export const registration = async ({ mail, password }: IAuthorization) => {
     throw new ApiError(responseMessages.existMail, 409);
   }
 
-  const accessToken = generateAccessToken({ mail });
-  const refreshToken = generateRefreshToken({ mail });
+  const accessToken = generateAccessToken({ mail, role: 'user' });
+  const refreshToken = generateRefreshToken({ mail, role: 'user' });
 
   await db.query(
-    `INSERT INTO users (mail, password, token)
-    values ($1, $2)`,
-    [mail, password, refreshToken]
+    `INSERT INTO users (mail, password, role, token)
+    values ($1, $2, $3, $4)`,
+    [mail, password, 'user', refreshToken]
   );
 
   return accessToken;

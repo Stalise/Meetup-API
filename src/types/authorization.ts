@@ -5,4 +5,5 @@ export interface IAuthorization {
 
 export interface ITokenPayload {
   mail: string;
+  role: 'user' | 'admin';
 }

@@ -25,8 +25,8 @@ export const login = async ({ mail, password }: IAuthorization) => {
     throw new ApiError(responseMessages.invalidPassword, 409);
   }
 
-  const accessToken = generateAccessToken({ mail });
-  const refreshToken = generateRefreshToken({ mail });
+  const accessToken = generateAccessToken({ mail, role: 'user' });
+  const refreshToken = generateRefreshToken({ mail, role: 'user' });
 
   await db.query(
     `UPDATE users
