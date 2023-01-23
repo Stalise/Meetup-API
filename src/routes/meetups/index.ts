@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { authorization } from 'middlewares';
+import { authorization, role } from 'middlewares';
 import {
   validationBody,
   validationParams,
@@ -25,6 +25,7 @@ const router = express.Router();
 router.post(
   '/',
   authorization,
+  role,
   validationBody<IMeetup>(createMeetupSchema),
   meetupController.createMeetup
 );
@@ -46,6 +47,7 @@ router.get(
 router.put(
   '/',
   authorization,
+  role,
   validationBody<IMeetupForUpdate>(updateMeetupSchema),
   meetupController.updateMeetup
 );
@@ -53,6 +55,7 @@ router.put(
 router.delete(
   '/:id',
   authorization,
+  role,
   validationParams<IParamsId>(meetupIdSchema),
   meetupController.deleteMeetup
 );

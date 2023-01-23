@@ -7,6 +7,7 @@ const responseMessages = {
   missingMail: 'There is no user with such mail.',
   invalidPassword: 'Invalid password entered.',
   successfulLogout: 'Successful logout.',
+  forbidden: 'Access denied.',
   unexpected:
     'An unexpected error has occurred. Please tell us about this problem.',
 };

@@ -39,8 +39,8 @@ export const authorization = async (
         return res.status(401).json({ message: jwtMessages.needAuth });
       }
 
-      const decode = decodeToken(accessToken);
-      const token = generateAccessToken(decode);
+      const { mail, role } = decodeToken(accessToken);
+      const token = generateAccessToken({ mail, role });
 
       res.cookie('token', token, {
         maxAge: jwtLimits.tokenCookieLifetime,
