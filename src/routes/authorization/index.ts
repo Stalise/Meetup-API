@@ -19,4 +19,6 @@ router.post(
   authorizationController.login
 );
 
+router.patch('/logout', authorizationController.logout);
+
 export default router;

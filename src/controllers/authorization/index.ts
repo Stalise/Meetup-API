@@ -1,6 +1,7 @@
-import type { Response } from 'express';
+import type { Request, Response } from 'express';
 
-import { registration, login } from 'services/authorization-service';
+import { registration, login, logout } from 'services/authorization-service';
+import { decodeToken } from 'services/jwt-service';
 import ApiError from 'helpers/api-error';
 import responseMessages from 'data/messages/response';
 import { jwtLimits } from 'data/jwt/limits';
@@ -52,6 +53,22 @@ const authorizationController = {
         return res.status(error.code).json({ message: error.message });
       }
 
+      return res.status(500).json({ message: responseMessages.unexpected });
+    }
+  },
+
+  async logout(req: Request, res: Response<IControllerResponse>) {
+    try {
+      const { mail } = decodeToken(req.cookies.token);
+
+      await logout(mail);
+
+      res.clearCookie('token');
+
+      return res
+        .status(205)
+        .json({ message: responseMessages.successfulLogout });
+    } catch (error) {
       return res.status(500).json({ message: responseMessages.unexpected });
     }
   },
