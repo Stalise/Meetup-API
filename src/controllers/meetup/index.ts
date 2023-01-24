@@ -5,7 +5,7 @@ import {
   getMeetups,
   getMeetupById,
   updateMeetup,
-  deleteMeetup,
+  deleteMeetupById,
   signupMeetup,
 } from 'services/meetup-service';
 import { decodeToken } from 'services/jwt-service';
@@ -117,16 +117,14 @@ const meetupController = {
     res: Response<IControllerResponse>
   ) {
     try {
-      const meetup = deleteMeetup(req.params.id);
-
-      if (!meetup) {
-        return res
-          .status(404)
-          .json({ message: responseMessages.meetupNotExist });
-      }
+      await deleteMeetupById(req.params.id);
 
       return res.status(200).json({ message: responseMessages.meetupDeleted });
     } catch (error) {
+      if (error instanceof ApiError) {
+        return res.status(error.code).json({ message: error.message });
+      }
+
       return res.status(500).json({ message: responseMessages.unexpected });
     }
   },
