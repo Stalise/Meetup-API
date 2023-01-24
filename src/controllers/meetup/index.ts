@@ -100,14 +100,12 @@ const meetupController = {
     try {
       const meetup = await updateMeetup(req.body);
 
-      if (!meetup) {
-        return res
-          .status(404)
-          .json({ message: responseMessages.meetupNotExist });
-      }
-
       return res.status(200).json({ meetup });
     } catch (error) {
+      if (error instanceof ApiError) {
+        return res.status(error.code).json({ message: error.message });
+      }
+
       return res.status(500).json({ message: responseMessages.unexpected });
     }
   },

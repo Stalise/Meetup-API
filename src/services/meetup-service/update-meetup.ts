@@ -1,6 +1,8 @@
 import type { QueryResult } from 'pg';
 
 import db from 'helpers/init-db';
+import ApiError from 'helpers/api-error';
+import responseMessages from 'data/messages/response';
 import createTagsValues from 'utils/create-tags-values';
 import type { IMeetupForUpdate, IExtendedMeetup } from 'types/meetups';
 
@@ -42,6 +44,10 @@ export const updateMeetup: UpdateMeetupType = async (data) => {
   );
 
   const meetup = response.rows[0];
+
+  if (!meetup) {
+    throw new ApiError(responseMessages.meetupNotExist, 404);
+  }
 
   return meetup;
 };
