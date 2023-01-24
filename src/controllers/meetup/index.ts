@@ -3,10 +3,11 @@ import type { Response } from 'express';
 import {
   createMeetup,
   getMeetups,
-  getMeetup,
+  getMeetupById,
   updateMeetup,
   deleteMeetup,
 } from 'services/meetup-service';
+import ApiError from 'helpers/api-error';
 import responseMessages from 'data/messages/response';
 import type {
   IRequestBody,
@@ -55,7 +56,7 @@ const meetupController = {
     res: Response<IMeetupResponseBody>
   ) {
     try {
-      const meetup = await getMeetup(req.params.id);
+      const meetup = await getMeetupById(req.params.id);
 
       if (!meetup) {
         return res
@@ -65,6 +66,10 @@ const meetupController = {
 
       return res.status(200).json({ meetup });
     } catch (error) {
+      if (error instanceof ApiError) {
+        return res.status(error.code).json({ message: error.message });
+      }
+
       return res.status(500).json({ message: responseMessages.unexpected });
     }
   },
