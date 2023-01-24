@@ -3,3 +3,4 @@ export * from './get-meetups';
 export * from './get-meetup-by-id';
 export * from './update-meetup';
 export * from './delete-meetup';
+export * from './signup-meetup';

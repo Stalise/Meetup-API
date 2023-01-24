@@ -6,7 +6,9 @@ import {
   getMeetupById,
   updateMeetup,
   deleteMeetup,
+  signupMeetup,
 } from 'services/meetup-service';
+import { decodeToken } from 'services/jwt-service';
 import ApiError from 'helpers/api-error';
 import responseMessages from 'data/messages/response';
 import type {
@@ -38,6 +40,29 @@ const meetupController = {
     }
   },
 
+  async signupMeetup(
+    req: IRequestParams<IParamsId>,
+    res: Response<IControllerResponse>
+  ) {
+    try {
+      const { id } = req.params;
+
+      await getMeetupById(id);
+
+      const { mail } = decodeToken(req.cookies.token);
+
+      await signupMeetup(id, mail);
+
+      return res.status(201).json({ message: responseMessages.signupMeetup });
+    } catch (error) {
+      if (error instanceof ApiError) {
+        return res.status(error.code).json({ message: error.message });
+      }
+
+      return res.status(500).json({ message: responseMessages.unexpected });
+    }
+  },
+
   async getMeetups(
     req: IRequestQuery<IQueryGetMeetups>,
     res: Response<IMeetupsResponseBody>
@@ -57,12 +82,6 @@ const meetupController = {
   ) {
     try {
       const meetup = await getMeetupById(req.params.id);
-
-      if (!meetup) {
-        return res
-          .status(404)
-          .json({ message: responseMessages.meetupNotExist });
-      }
 
       return res.status(200).json({ meetup });
     } catch (error) {

@@ -8,6 +8,8 @@ const responseMessages = {
   invalidPassword: 'Invalid password entered.',
   successfulLogout: 'Successful logout.',
   forbidden: 'Access denied.',
+  signupMeetup: 'You have successfully signed up for a meetup!',
+  alreadyParticipant: 'You have already registered for the event',
   unexpected:
     'An unexpected error has occurred. Please tell us about this problem.',
 };

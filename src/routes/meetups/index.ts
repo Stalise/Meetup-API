@@ -30,6 +30,13 @@ router.post(
   meetupController.createMeetup
 );
 
+router.post(
+  '/signup/:id',
+  authorization,
+  validationParams<IParamsId>(meetupIdSchema),
+  meetupController.signupMeetup
+);
+
 router.get(
   '/',
   validationQuery<IQueryGetMeetups>(getMeetupsSchema),
