@@ -1,9 +1,9 @@
 type DatabaseVariablesType =
-  | 'PG_USER'
-  | 'PG_PASSWORD'
-  | 'PG_HOST'
-  | 'PG_PORT'
-  | 'PG_DATABASE';
+  | 'POSTGRES_USER'
+  | 'POSTGRES_PASSWORD'
+  | 'POSTGRES_HOST'
+  | 'POSTGRES_PORT'
+  | 'POSTGRES_DB';
 
 type JWTVariablesType = 'SECRET_ACCESS_JWT' | 'SECRET_REFRESH_JWT';
 
