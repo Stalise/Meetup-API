@@ -1,0 +1,18 @@
+FROM node:18.12.1
+
+# Create app directory in docker-image
+WORKDIR /app
+
+# Copy package.json yarn.lock from your app into docker-image
+COPY package.json yarn.lock ./
+
+# Install all deps according to package.json
+RUN yarn
+
+# Copy all app code into docker-image in folder specified on WORKDIR
+COPY . .
+
+# Tell docker-daemon what port your app use
+EXPOSE 8000
+
+CMD [ "yarn", "dev" ]
